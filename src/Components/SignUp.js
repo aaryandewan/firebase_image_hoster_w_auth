@@ -3,11 +3,13 @@ import { Row, Col, Alert, Form, Button, Container } from "react-bootstrap";
 import { useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link, useHistory } from "react-router-dom";
+import firebase from "firebase";
 
 export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
+  const nameOfUserRef = useRef();
   const { signup } = useAuth();
   const [signedUp, setSignedUp] = useState("");
   const history = useHistory();
@@ -26,7 +28,11 @@ export default function SignUp() {
 
     try {
       await signup(emailRef.current.value, passwordRef.current.value);
-      setSignedUp("Your account is made!");
+      var user = firebase.auth().currentUser;
+      user.updateProfile({
+        displayName: nameOfUserRef,
+      });
+      console.log(user.displayName);
       history.push("/");
     } catch (error) {
       console.log(error);
@@ -54,6 +60,16 @@ export default function SignUp() {
 
           <Col className=" my-auto border border-primary rounded ">
             <Form onSubmit={formHandler}>
+              <Form.Group controlId="nameOfUser">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Your name"
+                  ref={nameOfUserRef}
+                  required
+                />
+              </Form.Group>
+
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
