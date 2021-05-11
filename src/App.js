@@ -4,10 +4,10 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { Container, Row, Col } from "react-bootstrap";
-import SignUp from "./SignUp";
+import SignUp from "./Components/SignUp";
 import PrivateRoute from "./privateRoute";
-import Profile from "./Profile";
-import Login from "./Login";
+import Profile from "./Components/Profile";
+import Login from "./Components/Login";
 function App() {
   return (
     <div>

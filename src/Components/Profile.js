@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useAuth } from "./context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { Col, InputGroup, FormControl, Button, Form } from "react-bootstrap/";
 import { Link, useHistory } from "react-router-dom";
 
