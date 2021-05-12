@@ -31,7 +31,7 @@ export default function Profile() {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    var docRef = db.collection("users").doc("XEqFrkVVhfbNP9AAx5DM7Jdf6Km2");
+    var docRef = db.collection("users").doc(uid);
     var docref_s = docRef.collection("photos");
     docref_s.onSnapshot((querySnapshot) => {
       let tempArr = [];
@@ -73,6 +73,10 @@ export default function Profile() {
     }
   }
   //the below fn uploads the image to the db
+
+  const homeSender = () => {
+    history.push("/");
+  };
 
   const photoUploadHandler = (e) => {
     let selectedFile = e.target.files[0];
@@ -126,6 +130,14 @@ export default function Profile() {
     <div>
       {console.log(user.uid)}
       <Navbar bg="dark" variant="dark">
+        <Navbar.Brand style={{ marginLeft: "10px" }}>
+          {" "}
+          <Link to="/home">
+            <Button variant="outline-info" style={{ marginRight: "5px" }}>
+              Home
+            </Button>
+          </Link>
+        </Navbar.Brand>
         <Nav className="collapse navbar-collapse justify-content-end">
           <div>
             <input
@@ -134,9 +146,6 @@ export default function Profile() {
               id="inputGroupFile01"
               onChange={photoUploadHandler}
             />
-            <Button variant="outline-info" style={{ marginRight: "5px" }}>
-              Upload a photo
-            </Button>
           </div>
           <Button variant="outline-info" onClick={handleLogout}>
             Logout
@@ -145,36 +154,6 @@ export default function Profile() {
       </Navbar>
       <h5>{error && <Alert variant="danger">{error}</Alert>}</h5>
       {console.log(user.displayName)}
-      {/* <Form onSubmit={formHandler}>
-        <Form.Row className="align-items-center">
-          <Col xs="auto">
-            <Form.Label htmlFor="inlineFormInput" srOnly>
-              Name
-            </Form.Label>
-            <Form.Control
-              className="mb-2"
-              id="inlineFormInput"
-              placeholder="Jane Doe"
-              ref={nameRef}
-            />
-          </Col>
-          <Col xs="auto">
-            <Form.Label htmlFor="inlineFormInputGroup" srOnly>
-              Image URL
-            </Form.Label>
-            <InputGroup className="mb-2">
-              <FormControl id="inlineFormInputGroup" ref={imageRef} />
-            </InputGroup>
-          </Col>
-          <Col xs="auto">
-            <Button type="submit" className="mb-2">
-              Submit
-            </Button>
-          </Col>
-        </Form.Row>
-      </Form>
-      {user.displayName}
-      <img src={user.photoURL}></img> */}
 
       <Container>
         <Row className="mb-4 mt-4">

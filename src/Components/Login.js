@@ -20,6 +20,7 @@ export default function SignUp() {
       await login(emailRef.current.value, passwordRef.current.value);
       history.push("/");
     } catch (error) {
+      setError(error.message);
       console.log(error);
     }
   };
@@ -41,7 +42,6 @@ export default function SignUp() {
           </Col>
         </Row>
         <Row>
-          {signedUp && <Alert variant="success">{signedUp}</Alert>}
           <Col className=" my-auto border border-primary rounded ">
             <Form onSubmit={formHandler}>
               <Form.Group controlId="formBasicEmail">
