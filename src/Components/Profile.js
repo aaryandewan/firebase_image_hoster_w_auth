@@ -37,7 +37,6 @@ export default function Profile() {
       let tempArr = [];
       querySnapshot.forEach((doc) => {
         tempArr.push(doc.data().imgURL);
-
         console.log(doc.id, " => ", doc.data().imgURL); //This line works, it console logs the URL
         // setImages([...images, doc.data().imgURL]); //Here is the problem
         // setImages((oldArr) => [...oldArr, doc.data().imgURL]);
@@ -178,6 +177,17 @@ export default function Profile() {
       <img src={user.photoURL}></img> */}
 
       <Container>
+        <Row className="mb-4 mt-4">
+          <Col
+            className="col-12 text-center"
+            style={{ backgroundColor: "white" }}
+          >
+            {/* <Button variant="primary">Your Photos</Button> */}
+            <Alert variant="primary">
+              <h2>Your photos</h2>
+            </Alert>
+          </Col>
+        </Row>
         <Row className="row-cols-1 row-cols-sm-2 row-cols-md-4">
           {images.map((image) => {
             return (
