@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
   Col,
@@ -9,6 +9,8 @@ import {
   Nav,
   Navbar,
   Alert,
+  Container,
+  Row,
 } from "react-bootstrap/";
 import { Link, useHistory } from "react-router-dom";
 import { projectStorage } from "../firebase";
@@ -26,11 +28,33 @@ export default function Profile() {
   const uid = user.uid;
   var storageRef = projectStorage.ref();
   let db = firebase.firestore();
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    var docRef = db.collection("users").doc("XEqFrkVVhfbNP9AAx5DM7Jdf6Km2");
+    var docref_s = docRef.collection("photos");
+    docref_s.onSnapshot((querySnapshot) => {
+      let tempArr = [];
+      querySnapshot.forEach((doc) => {
+        tempArr.push(doc.data().imgURL);
+
+        console.log(doc.id, " => ", doc.data().imgURL); //This line works, it console logs the URL
+        // setImages([...images, doc.data().imgURL]); //Here is the problem
+        // setImages((oldArr) => [...oldArr, doc.data().imgURL]);
+        // console.log(images);
+      });
+      setImages([...images, ...tempArr]);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("Images array is , ", images);
+  }, [images]);
 
   async function handleLogout() {
     try {
       await logout();
-      history.push("/signup");
+      history.push("/home");
     } catch (error) {
       console.log(error);
     }
@@ -122,7 +146,7 @@ export default function Profile() {
       </Navbar>
       <h5>{error && <Alert variant="danger">{error}</Alert>}</h5>
       {console.log(user.displayName)}
-      <Form onSubmit={formHandler}>
+      {/* <Form onSubmit={formHandler}>
         <Form.Row className="align-items-center">
           <Col xs="auto">
             <Form.Label htmlFor="inlineFormInput" srOnly>
@@ -151,7 +175,23 @@ export default function Profile() {
         </Form.Row>
       </Form>
       {user.displayName}
-      <img src={user.photoURL}></img>
+      <img src={user.photoURL}></img> */}
+
+      <Container>
+        <Row className="row-cols-1 row-cols-sm-2 row-cols-md-4">
+          {images.map((image) => {
+            return (
+              <Col className="mb-4 mr-4">
+                <img
+                  src={image}
+                  className="img-fluid"
+                  style={{ width: "400px", height: "300px" }}
+                ></img>
+              </Col>
+            );
+          })}
+        </Row>
+      </Container>
     </div>
   );
 }

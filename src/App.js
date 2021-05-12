@@ -8,12 +8,15 @@ import SignUp from "./Components/SignUp";
 import PrivateRoute from "./privateRoute";
 import Profile from "./Components/Profile";
 import Login from "./Components/Login";
+import Home from "./Components/Home";
+
 function App() {
   return (
     <div>
       <Router>
         <Switch>
           <PrivateRoute exact path="/" component={Profile} />
+          <Route exact path="/home" component={Home} />
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
         </Switch>
